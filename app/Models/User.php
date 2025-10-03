@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -17,6 +18,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
+    use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -63,34 +65,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-
-    // app/Models/User.php
-// اضافه کردن این متدها به User model موجود
-
-    public function teachingClasses()
-    {
-        return $this->hasMany(ClassRoom::class, 'teacher_id');
-    }
-
-    public function assistingClasses()
-    {
-        return $this->hasMany(ClassRoom::class, 'assistant_id');
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->role === 'admin';
-    }
-
-    public function isTeacher(): bool
-    {
-        return $this->role === 'teacher';
-    }
-
-    public function isAssistant(): bool
-    {
-        return $this->role === 'assistant';
     }
 }
